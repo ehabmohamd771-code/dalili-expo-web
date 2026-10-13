@@ -1,0 +1,51 @@
+name: Build Dalili Web App
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-web:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build web app
+        run: npx expo export --platform web --clear
+
+      - name: Prepare web assets
+        run: |
+          if [ -d dist/_expo ]; then
+            mv dist/_expo dist/expo-assets
+          fi
+          sed -i 's#/_expo/#/expo-assets/#g' dist/index.html
+
+      - name: Create downloadable ZIP
+        run: |
+          cd dist
+          zip -r ../Dalili-Web-App.zip .
+          cd ..
+
+      - name: Upload web app
+        uses: actions/upload-artifact@v4
+        with:
+          name: Dalili-Web-App
+          path: Dalili-Web-App.zip
+          if-no-files-found: error
+          retention-days: 30
