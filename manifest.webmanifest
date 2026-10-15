@@ -1,0 +1,20 @@
+{
+"name": "دليلي",
+"short_name": "دليلي",
+"description": "تطبيق دليلي",
+"start_url": "/dalili-expo-web/",
+"scope": "/dalili-expo-web/",
+"display": "standalone",
+"orientation": "portrait",
+"background_color": "#ffffff",
+"theme_color": "#1457a6",
+"lang": "ar",
+"dir": "rtl",
+"icons": [
+{
+"src": "/dalili-expo-web/favicon.ico",
+"sizes": "48x48",
+"type": "image/x-icon"
+}
+]
+}
